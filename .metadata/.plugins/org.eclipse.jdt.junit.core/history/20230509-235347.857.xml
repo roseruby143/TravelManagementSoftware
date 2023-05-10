@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="AdminControllerTest" project="travelmanagement" tests="5" started="5" failures="0" errors="0" ignored="0">
+  <testsuite name="com.learning.travelmanagement.controller.AdminControllerTest" time="0.242" displayname="AdminControllerTest" uniqueid="[engine:junit-jupiter]/[class:com.learning.travelmanagement.controller.AdminControllerTest]">
+    <testcase name="shouldUpdateBookingById" classname="com.learning.travelmanagement.controller.AdminControllerTest" time="0.146" displayname="shouldUpdateBookingById()" uniqueid="[engine:junit-jupiter]/[class:com.learning.travelmanagement.controller.AdminControllerTest]/[method:shouldUpdateBookingById()]"/>
+    <testcase name="shouldGetBookingById" classname="com.learning.travelmanagement.controller.AdminControllerTest" time="0.036" displayname="shouldGetBookingById()" uniqueid="[engine:junit-jupiter]/[class:com.learning.travelmanagement.controller.AdminControllerTest]/[method:shouldGetBookingById()]"/>
+    <testcase name="shouldPostBookings" classname="com.learning.travelmanagement.controller.AdminControllerTest" time="0.012" displayname="shouldPostBookings()" uniqueid="[engine:junit-jupiter]/[class:com.learning.travelmanagement.controller.AdminControllerTest]/[method:shouldPostBookings()]"/>
+    <testcase name="shouldDeleteBookingById" classname="com.learning.travelmanagement.controller.AdminControllerTest" time="0.018" displayname="shouldDeleteBookingById()" uniqueid="[engine:junit-jupiter]/[class:com.learning.travelmanagement.controller.AdminControllerTest]/[method:shouldDeleteBookingById()]"/>
+    <testcase name="shouldGetAllBookings" classname="com.learning.travelmanagement.controller.AdminControllerTest" time="0.009" displayname="shouldGetAllBookings()" uniqueid="[engine:junit-jupiter]/[class:com.learning.travelmanagement.controller.AdminControllerTest]/[method:shouldGetAllBookings()]"/>
+  </testsuite>
+</testrun>

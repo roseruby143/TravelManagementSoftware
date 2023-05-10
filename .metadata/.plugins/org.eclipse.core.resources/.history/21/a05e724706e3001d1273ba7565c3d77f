@@ -1,0 +1,25 @@
+package com.learning.travelmanagement.model;
+
+import java.sql.Time;
+
+import jakarta.annotation.Generated;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
+public class Cab {
+	
+	@Id
+	private Integer cabId;
+	
+	private String cabModel;
+	private String cabType;
+	/* private String status; */
+	private String plateNo;
+	private Integer pricePerHour;
+	/*
+	 * private Time startTime; private Time endTime;
+	 */
+	
+
+}

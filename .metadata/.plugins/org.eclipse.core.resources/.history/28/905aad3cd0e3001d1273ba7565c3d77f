@@ -1,0 +1,107 @@
+package com.learning.travelmanagement.model;
+
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "bookings")
+public class Bookings {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "booking_id")
+    private Integer bookingId;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "cabid", referencedColumnName = "cabid")
+    private Cab cab;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "clientid", referencedColumnName = "clientid")
+    private Client client;
+	
+	private String startTime;
+	private String endTime;
+	private String date;
+	private float price;
+	
+	public Bookings(Integer bookingId, String startTime, String endTime, String date, float price) {
+		super();
+		this.bookingId = bookingId;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.date = date;
+		this.price = price;
+	}
+
+	public Bookings() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Integer getBookingId() {
+		return bookingId;
+	}
+	public void setBookingId(Integer bookingId) {
+		this.bookingId = bookingId;
+	}
+	public String getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+	public String getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public Cab getCab() {
+		return cab;
+	}
+
+	public void setCab(Cab cab) {
+		this.cab = cab;
+	}
+
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
+
+	public float getPrice() {
+		return price;
+	}
+
+	public void setPrice(float price) {
+		this.price = price;
+	}
+
+	@Override
+	public String toString() {
+		return "Bookings [bookingId=" + bookingId + ", cab=" + cab + ", client=" + client + ", startTime=" + startTime
+				+ ", endTime=" + endTime + ", date=" + date + ", price=" + price + "]";
+	}
+	
+}

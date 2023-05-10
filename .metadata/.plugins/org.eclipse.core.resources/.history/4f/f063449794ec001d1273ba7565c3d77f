@@ -1,0 +1,22 @@
+package com.learning.travelmanagement.controller;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.test.web.client.ExpectedCount;
+
+import com.learning.travelmanagement.model.Bookings;
+
+class AdminControllerTest {
+
+	@Test
+	void allowFetchingAllBookings() {
+		AdminController adminC = new AdminController();
+		List<Bookings> bookingList = adminC.getBookings();
+		assertNotNull(bookingList);
+		assertEquals(ExpectedCount.once(), bookingList.size());
+	}
+
+}

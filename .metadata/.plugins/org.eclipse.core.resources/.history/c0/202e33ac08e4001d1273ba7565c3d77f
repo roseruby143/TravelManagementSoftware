@@ -1,0 +1,87 @@
+package com.learning.travelmanagement.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.learning.travelmanagement.model.Bookings;
+import com.learning.travelmanagement.service.ClientServices;
+
+/*
+ * when admin looks into all bookings -> /bookings . GET
+ * when admin edits booking -> /booking/{boookingId} [data in request body]. PUT
+ * when admin creates a bookings -> /bookings/{bookingId}. POST
+ * when admin cancels booking -> booking/{bookingId}. DELETE
+ * 
+ * */
+@RestController
+@RequestMapping("/admin/")
+public class AdminController {
+	/*
+	 * @Autowired private BookingsDAO bookingDao;
+	 */
+	
+	@RequestMapping("cab/{cabId}/bookings")
+	public List<Bookings> getBookingsforCab(@PathVariable int cabId){
+		
+		return null;
+	}
+	
+	@Autowired
+	private ClientServices clientService;
+	
+	
+	
+	/************ CLIENT CONTROLLER ************/
+	@GetMapping("/bookings")
+	@ResponseBody
+	public List<Bookings> getBookings(@PathVariable int clientId) {
+		List<Bookings> bookingList = clientService.getBookingsByClientId(clientId);
+		System.out.println("****** \nThe booking list is : "+bookingList);
+		
+		return bookingList;
+	}
+	
+	@PostMapping("/booking")
+	@ResponseBody
+	public Bookings newBooking(@RequestBody Bookings bData) {
+		/*
+		 * bData.setClient(new Client(clientId)); bData.setCab(new Cab(cabId));
+		 */
+		System.out.println("****** \nThe booking data is : "+bData);
+		return clientService.addBookingByClientId(bData);
+	}
+	
+	@PutMapping("/booking/{bookingId}")
+	@ResponseBody
+	public Bookings updateBooking(@RequestBody Bookings bData, @PathVariable int bookingId) {
+		bData.setId(bookingId);
+		/*
+		 * bData.setClient(new Client(clientId)); bData.setCab(new Cab(cabId));
+		 */
+		System.out.println("****** \nThe booking data is : "+bData);
+		return clientService.updateBookingByClientId(bData);
+	}
+	
+	@DeleteMapping("/booking/{bookingId}")
+	@ResponseBody
+	public void deleteBooking(@RequestBody Bookings bData) {
+		System.out.println("****** \nThe booking data is : "+bData);
+		clientService.deleteBookingByClientId(bData);
+		/*
+		 * System.out.println("****** \nThe booking list is : "+bookingList);
+		 * 
+		 * return bookingList;
+		 */
+	}
+	
+}

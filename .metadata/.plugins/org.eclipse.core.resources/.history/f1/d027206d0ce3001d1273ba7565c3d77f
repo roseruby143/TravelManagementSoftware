@@ -1,0 +1,19 @@
+package com.learning.travelmanagement.model;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
+public class Client {
+
+	@Id
+	private Integer clientId;
+	private String name;
+	private String address;
+	private String phone;
+	@Autowired
+	private Bookings bokings;
+	
+}

@@ -1,0 +1,5 @@
+package com.learning.travelmanagement.model;
+
+public class CabDetails {
+
+}

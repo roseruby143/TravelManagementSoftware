@@ -1,0 +1,9 @@
+package com.learning.travelmanagement.dao;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.learning.travelmanagement.model.Bookings;
+
+public interface BookingsDAO extends JpaRepository<Bookings, Integer>{
+
+}

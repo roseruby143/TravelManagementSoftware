@@ -1,0 +1,8 @@
+1682385393926	Move 'data.sql' to 'templates'
+1682385447130	Move 'data.sql' to 'resources'
+1682388638329	Move 'data.sql' to 'static'
+1682389540535	Encapsulate field 'cabId'
+1682389546765	Encapsulate field 'clientId'
+1682455321875	Encapsulate field 'price'
+1682495165767	Move 'data.sql' to 'resources'
+1682495220948	Move 'data.sql' to 'static'

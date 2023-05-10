@@ -1,0 +1,98 @@
+package com.learning.travelmanagement.controller;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.JsonParseException;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.client.ExpectedCount;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+import static org.springframework.test.web.servlet.request.MockMvcResultMatchers.*;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.learning.travelmanagement.dao.BookingsDAO;
+import com.learning.travelmanagement.dao.CabDAO;
+import com.learning.travelmanagement.dao.ClientDAO;
+import com.learning.travelmanagement.model.Bookings;
+
+@WebMvcTest(AdminController.class)
+class AdminControllerTest{
+	@Autowired
+	WebApplicationContext webApplicationContext;
+	
+	@MockBean
+	private BookingsDAO bookingDao;
+	@MockBean
+	private CabDAO cabDao;
+	@MockBean
+	private ClientDAO clientDao;
+	
+	@Autowired
+	private MockMvc mockMvc;
+	@Autowired
+	private ObjectMapper objectMapper;
+	
+	@Test
+	void shouldCreateBookings() throws Exception {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+
+	    Bookings bookings = new Bookings(1, "2", "08/07/2019", 150, 1, 1);
+	
+	    mockMvc.perform(post("/admin/booking").contentType(MediaType.APPLICATION_JSON)
+	        .content(objectMapper.writeValueAsString(bookings)))
+	        .andExpect(status().isCreated())
+	        .andDo(print());
+	}
+	
+	@Test
+	void shouldGetAllBookings() throws Exception {
+		final ResultActions result =
+				mockMvc.perform(
+			              get("/admin/bookings")
+			                  //.queryParam("name", "Foo")
+			                  .contentType(MediaType.APPLICATION_JSON));
+		result
+	    .andExpect(status().isOk())
+	    .andExpect(content()
+	            .contentType(MediaType.APPLICATION_JSON))
+	    .andExpect(jsonPath("$.text", is("Hello Foo")));
+	}
+	
+	@Test
+	void shouldGetBookingById() throws Exception {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+
+	    Bookings bookings = new Bookings(1, "2", "08/07/2019", 150, 1, 1);
+	
+	    mockMvc.perform(post("/admin/booking").contentType(MediaType.APPLICATION_JSON)
+	        .content(objectMapper.writeValueAsString(bookings)))
+	        .andExpect(status().isCreated())
+	        .andDo(print());
+	}
+
+	/*
+	 * @Test void allowFetchingAllBookings() { String uri = "/admin/bookings";
+	 * MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
+	 * .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+	 * 
+	 * int status = mvcResult.getResponse().getStatus(); assertEquals(200, status);
+	 * String content = mvcResult.getResponse().getContentAsString(); Bookings[]
+	 * bookinglist = super.mapFromJson(content, Bookings[].class);
+	 * assertTrue(bookinglist.length > 0); }
+	 */
+
+}

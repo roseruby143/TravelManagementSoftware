@@ -1,0 +1,26 @@
+package com.learning.travelmanagement.model;
+
+import java.sql.Time;
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
+public class Bookings {
+	
+	@Id
+	private Integer bookingId;
+	
+	@Autowired
+	private Cab cabDetail;
+	
+	@Autowired
+	private Client client;
+	private Time startTime;
+	private Time endTime;
+	private Date date;
+
+}

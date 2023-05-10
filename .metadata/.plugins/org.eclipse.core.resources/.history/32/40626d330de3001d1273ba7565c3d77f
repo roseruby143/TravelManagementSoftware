@@ -1,0 +1,28 @@
+package com.learning.travelmanagement.controller;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.learning.travelmanagement.dao.BookingsDAO;
+
+@RestController
+public class TMSController {
+	
+	@Autowired
+	BookingsDAO bookingDao;
+	
+	@RequestMapping("/")
+	void test() {
+		System.out.println("*************** \nInside TMSController - test()\n***************");
+	}
+	
+	@GetMapping
+	public String getBookings() {
+		
+		return "";
+	}
+
+}

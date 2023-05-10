@@ -1,0 +1,74 @@
+package com.learning.travelmanagement.model;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
+public class Cab {
+	
+	
+	@Id
+	private Integer cabId;
+	
+	private String cabModel;
+	private String cabType;
+	/* private String status; */
+	private String plateNo;
+	private Integer pricePerHour;
+	/*
+	 * private Time startTime; private Time endTime;
+	 */
+	
+	public Cab() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Integer getCabId() {
+		return cabId;
+	}
+
+	public void setCabId(Integer cabId) {
+		this.cabId = cabId;
+	}
+
+	public String getCabModel() {
+		return cabModel;
+	}
+
+	public void setCabModel(String cabModel) {
+		this.cabModel = cabModel;
+	}
+
+	public String getCabType() {
+		return cabType;
+	}
+
+	public void setCabType(String cabType) {
+		this.cabType = cabType;
+	}
+
+	public String getPlateNo() {
+		return plateNo;
+	}
+
+	public void setPlateNo(String plateNo) {
+		this.plateNo = plateNo;
+	}
+
+	public Integer getPricePerHour() {
+		return pricePerHour;
+	}
+
+	public void setPricePerHour(Integer pricePerHour) {
+		this.pricePerHour = pricePerHour;
+	}
+
+	@Override
+	public String toString() {
+		return "Cab [cabId=" + cabId + ", cabModel=" + cabModel + ", cabType=" + cabType + ", plateNo=" + plateNo
+				+ ", pricePerHour=" + pricePerHour + "]";
+	}
+	
+	
+}

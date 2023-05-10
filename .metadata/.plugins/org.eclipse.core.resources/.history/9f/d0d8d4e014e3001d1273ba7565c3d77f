@@ -1,0 +1,76 @@
+package com.learning.travelmanagement.model;
+
+import java.sql.Time;
+import java.util.Date;
+
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
+public class Bookings {
+	
+	@Id
+	private Integer bookingId;
+	
+	private int cabId;
+	private int clientId;
+	
+	private Time startTime;
+	private Time endTime;
+	private Date date;
+	
+	public Bookings() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Integer getBookingId() {
+		return bookingId;
+	}
+	public void setBookingId(Integer bookingId) {
+		this.bookingId = bookingId;
+	}
+	public Time getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(Time startTime) {
+		this.startTime = startTime;
+	}
+	public Time getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(Time endTime) {
+		this.endTime = endTime;
+	}
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public int getCabId() {
+		return cabId;
+	}
+
+	public void setCabId(int cabId) {
+		this.cabId = cabId;
+	}
+
+	public int getClientId() {
+		return clientId;
+	}
+
+	public void setClientId(int clientId) {
+		this.clientId = clientId;
+	}
+
+	@Override
+	public String toString() {
+		return "Bookings [bookingId=" + bookingId + ", cabId=" + cabId + ", clientId=" + clientId + ", startTime="
+				+ startTime + ", endTime=" + endTime + ", date=" + date + "]";
+	}
+
+	
+}

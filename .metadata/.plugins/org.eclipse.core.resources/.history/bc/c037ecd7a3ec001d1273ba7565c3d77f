@@ -1,0 +1,99 @@
+package com.learning.travelmanagement.controller;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*; 
+
+import static org.mockito.BDDMockito.*;
+import static org.hamcrest.Matchers.is;
+import java.util.Optional;
+
+import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.web.context.WebApplicationContext;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.learning.travelmanagement.dao.BookingsDAO;
+import com.learning.travelmanagement.dao.CabDAO;
+import com.learning.travelmanagement.dao.ClientDAO;
+import com.learning.travelmanagement.model.Bookings;
+import com.learning.travelmanagement.service.AdminServices;
+
+@WebMvcTest(AdminController.class)
+class AdminControllerTest{
+	@Autowired
+	WebApplicationContext webApplicationContext;
+	
+	@MockBean
+	private BookingsDAO bookingDao;
+	@MockBean
+	private CabDAO cabDao;
+	@MockBean
+	private ClientDAO clientDao;
+	@MockBean
+	private AdminServices adminService;
+	
+	@Autowired
+	private MockMvc mockMvc;
+	@Autowired
+	private ObjectMapper objectMapper;
+	
+	@Test
+	void shouldPostBookings() throws Exception {
+		Bookings bookings = new Bookings(1, "2", "08/07/2019", 150, 1, 1);
+	
+	    mockMvc.perform(
+	          post("/admin/booking")
+	              .content(bookings.toString())
+	              .contentType(MediaType.APPLICATION_JSON))
+	    	.andExpect(status().isCreated());
+	}
+	
+	@Test
+	void shouldGetAllBookings() throws Exception {
+		final ResultActions result =
+				mockMvc.perform(
+			              get("/admin/bookings")
+			                  //.queryParam("name", "Foo")
+			                  .contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(content()
+						.contentType(MediaType.APPLICATION_JSON))
+				.andDo(print());
+	}
+	
+	@Test
+	void shouldGetBookingById() throws Exception {
+		int id = 1;
+        Bookings booking = new Bookings(id, "2", "08/07/2019", 150, 1, 1);
+        given(bookingDao.findById(id)).willReturn(Optional.of(booking));
+
+        mockMvc.perform(get("/admin/booking/{id}", id))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(id)))
+                .andExpect(jsonPath("$.noOfDays", is(booking.getNoOfDays())))
+                .andExpect(jsonPath("$.price", is(booking.getPrice())))
+                .andExpect(jsonPath("$.cabId", is(booking.getCab().getId())))
+                .andExpect(jsonPath("$.clientId", is(booking.getClient().getClientId())))
+                .andExpect(jsonPath("$.date", is(booking.getDate())));
+   
+	}
+
+	/*
+	 * @Test void allowFetchingAllBookings() { String uri = "/admin/bookings";
+	 * MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
+	 * .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+	 * 
+	 * int status = mvcResult.getResponse().getStatus(); assertEquals(200, status);
+	 * String content = mvcResult.getResponse().getContentAsString(); Bookings[]
+	 * bookinglist = super.mapFromJson(content, Bookings[].class);
+	 * assertTrue(bookinglist.length > 0); }
+	 */
+
+}

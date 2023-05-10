@@ -1,0 +1,20 @@
+package com.learning.travelmanagement.model;
+
+import java.sql.Time;
+import java.util.Date;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
+public class Bookings {
+	
+	@Id
+	private Integer bookingId;
+	
+	private Cab cabDetail;
+	private Time startTime;
+	private Time endTime;
+	private Date date;
+
+}

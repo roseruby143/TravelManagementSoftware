@@ -1,0 +1,55 @@
+package com.learning.travelmanagement.controller;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.IOException;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.json.JsonParseException;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.client.ExpectedCount;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.learning.travelmanagement.model.Bookings;
+
+@WebMvcTest(AdminController.class)
+class AdminControllerTest {
+	
+	protected void setUp() {
+	      mvc = MockMvcBuilders.webAppContextSetup(WebApplicationContext).build();
+	   }
+	   protected String mapToJson(Object obj) throws JsonProcessingException {
+	      ObjectMapper objectMapper = new ObjectMapper();
+	      return objectMapper.writeValueAsString(obj);
+	   }
+	   protected <T> T mapFromJson(String json, Class<T> clazz)
+	      throws JsonParseException, JsonMappingException, IOException {
+	      
+	      ObjectMapper objectMapper = new ObjectMapper();
+	      return objectMapper.readValue(json, clazz);
+	   }
+
+	protected MockMvc mvc;
+	@Test
+	void allowFetchingAllBookings() {
+		String uri = "/admin/bookings";
+		   MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
+		      .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+		   
+		   int status = mvcResult.getResponse().getStatus();
+		   assertEquals(200, status);
+		   String content = mvcResult.getResponse().getContentAsString();
+		   Bookings[] bookinglist = super.mapFromJson(content, Bookings[].class);
+		   assertTrue(bookinglist.length > 0);
+	}
+
+}

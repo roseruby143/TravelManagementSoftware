@@ -1,0 +1,150 @@
+package com.learning.travelmanagement.controller;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*; 
+
+import static org.mockito.BDDMockito.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.hasSize;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.context.WebApplicationContext;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.learning.travelmanagement.dao.BookingsDAO;
+import com.learning.travelmanagement.dao.CabDAO;
+import com.learning.travelmanagement.dao.ClientDAO;
+import com.learning.travelmanagement.model.Bookings;
+import com.learning.travelmanagement.service.AdminServices;
+
+@RunWith(SpringRunner.class)
+@WebMvcTest(AdminController.class)
+class AdminControllerTest{
+	@Autowired
+	WebApplicationContext webApplicationContext;
+	
+	@MockBean
+	private BookingsDAO bookingDao;
+	@MockBean
+	private CabDAO cabDao;
+	@MockBean
+	private ClientDAO clientDao;
+	@MockBean
+	private AdminServices adminService;
+	
+	@Autowired
+	private MockMvc mockMvc;
+	
+	@Test
+	void shouldGetAllBookings() throws Exception {
+		List<Bookings> bookingList = new ArrayList<Bookings>();
+		Bookings booking1 = new Bookings(1, "2", "08/07/2019", 150, 1, 1);
+		Bookings booking2 = new Bookings(2, "2", "08/07/2019", 150, 1, 1);
+		bookingList.add(booking2);
+		bookingList.add(booking1);
+        when(bookingDao.findAll()).thenReturn(bookingList);
+		
+		mockMvc.perform(
+			    get("/admin/bookings")
+			    .contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$", hasSize(2)))
+				.andExpect(content()
+						.contentType(MediaType.APPLICATION_JSON))
+				.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id", is(1)))
+                .andExpect(jsonPath("$[0].noOfDays", is(booking1.getNoOfDays())))
+                .andExpect(jsonPath("$[0].date", is(booking1.getDate())))
+                .andExpect(jsonPath("$[0].price", is(booking1.getPrice())))
+                .andExpect(jsonPath("$[0].cabId", is(booking1.getCab().getId())))
+                .andExpect(jsonPath("$[0].clientId", is(booking1.getClient().getClientId())))
+                .andExpect(jsonPath("$[1].id", is(2)))
+                .andExpect(jsonPath("$[1].noOfDays", is(booking2.getNoOfDays())))
+                .andExpect(jsonPath("$[1].date", is(booking2.getDate())))
+                .andExpect(jsonPath("$[1].price", is(booking2.getPrice())))
+                .andExpect(jsonPath("$[1].cabId", is(booking2.getCab().getId())))
+                .andExpect(jsonPath("$[1].clientId", is(booking2.getClient().getClientId())));
+	}
+	
+	@Test
+	void shouldGetBookingById() throws Exception {
+		int id = 1;
+        Bookings booking = new Bookings(id, "2", "08/07/2019", 150, 1, 1);
+        given(bookingDao.findById(id)).willReturn(Optional.of(booking));
+
+        mockMvc.perform(get("/admin/booking/{id}", id))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(id)))
+                .andExpect(jsonPath("$.noOfDays", is(booking.getNoOfDays())))
+                .andExpect(jsonPath("$.date", is(booking.getDate())))
+                .andExpect(jsonPath("$.price", is(booking.getPrice())))
+                .andExpect(jsonPath("$.cabId", is(booking.getCab().getId())))
+                .andExpect(jsonPath("$.clientId", is(booking.getClient().getClientId())));
+   
+	}
+	
+	@Test
+	void shouldPostBookings() throws Exception {
+		Bookings bookings = new Bookings(1, "2", "08/07/2019", 150, 1, 1);
+	
+		given(bookingDao.save(bookings)).willReturn(bookings);
+	    mockMvc.perform(
+	          post("/admin/booking")
+	            .content(new ObjectMapper().writeValueAsString(bookings))
+              	.contentType(MediaType.APPLICATION_JSON))
+	    	.andExpect(status().isCreated())
+            .andExpect(jsonPath("$.id", is(bookings.getId())))
+            .andExpect(jsonPath("$.noOfDays", is(bookings.getNoOfDays())))
+            .andExpect(jsonPath("$.date", is(bookings.getDate())))
+            .andExpect(jsonPath("$.price", is(bookings.getPrice())))
+            .andExpect(jsonPath("$.cabId", is(bookings.getCab().getId())))
+            .andExpect(jsonPath("$.clientId", is(bookings.getClient().getClientId())));
+	}
+	
+	@Test
+	void shouldUpdateBookingById() throws Exception {
+		int id = 1;
+        Bookings booking = new Bookings(id, "2", "08/07/2019", 160, 2, 1);
+        given(bookingDao.save(booking)).willReturn(booking);
+
+        mockMvc.perform(put("/admin/booking/{id}", id)
+        		.content(new ObjectMapper().writeValueAsString(booking)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(id)))
+                .andExpect(jsonPath("$.noOfDays", is(booking.getNoOfDays())))
+                .andExpect(jsonPath("$.date", is(booking.getDate())))
+                .andExpect(jsonPath("$.price", is(booking.getPrice())))
+                .andExpect(jsonPath("$.cabId", is(booking.getCab().getId())))
+                .andExpect(jsonPath("$.clientId", is(booking.getClient().getClientId())));
+   
+	}
+	
+	@Test
+	void shouldDeleteBookingById() throws Exception {
+		int id = 1;
+        Bookings booking = new Bookings(id, "2", "08/07/2019", 150, 1, 1);
+        //given(bookingDao.findById(id)).willReturn(Optional.of(booking));
+
+        mockMvc.perform(delete("/admin/booking/{id}", id)
+	            .content(new ObjectMapper().writeValueAsString(booking)))
+                .andExpect(status().isOk());
+        
+        verify(bookingDao, times(1)).deleteById(id);
+   
+	}
+	
+
+}

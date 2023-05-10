@@ -1,0 +1,154 @@
+package com.learning.travelmanagement.controller;
+
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.learning.travelmanagement.dao.BookingsDAO;
+import com.learning.travelmanagement.dao.CabDAO;
+import com.learning.travelmanagement.dao.ClientDAO;
+import com.learning.travelmanagement.model.Bookings;
+import com.learning.travelmanagement.model.Cab;
+import com.learning.travelmanagement.model.Client;
+
+@RestController
+public class TMSController {
+	
+	@Autowired
+	BookingsDAO bookingDao;
+	
+	@Autowired
+	ClientDAO clientDao;
+	
+	@Autowired
+	CabDAO cabDao;
+	
+	@RequestMapping("/")
+	void test() {
+		System.out.println("*************** \nInside TMSController - test()\n***************");
+	}
+	
+	/************ CAB CONTROLLER ************/
+	@GetMapping("/cabs")
+	@ResponseBody
+	public List<Cab> getCabs() {
+		List<Cab> cabList = cabDao.findAll();
+		System.out.println("****** \nThe booking list is : "+cabList);
+		return cabList;
+	}
+	
+	@GetMapping("/cab/{id}")
+	@ResponseBody
+	public Optional<Cab> getCabsById(@PathVariable("id") int id) {
+		Optional<Cab> cabList = cabDao.findById(id);
+		System.out.println("****** \nThe booking list is : "+cabList);
+		return cabList;
+	}
+	
+	@PostMapping("/cab")
+	public Cab createCab(@RequestBody Cab cabData) {
+		System.out.println("********** \n cab data to be created is :"+cabData);
+		
+		return cabDao.save(cabData);
+	}
+	
+	@PutMapping("/cab/{id}")
+	public Cab updateCab(@RequestBody Cab cabData) {
+		System.out.println("********** \n cab data to be updated is :"+cabData);
+		
+		return cabDao.save(cabData);
+	}
+	
+	@DeleteMapping("/cab/{id}")
+	public void deleteCab(@PathVariable("id") int id) {
+		cabDao.deleteById(id);
+	}
+	
+	/************ CLIENT CONTROLLER ************/
+	@GetMapping("/clients")
+	@ResponseBody
+	public List<Client> getClients() {
+		List<Client> clientList = clientDao.findAll();
+		System.out.println("****** \nThe booking list is : "+clientList.toString());
+		return clientList;
+	}
+	
+	@GetMapping("/client/{id}")
+	@ResponseBody
+	public Optional<Client> getClientById(@PathVariable("id") int id) {
+		Optional<Client> clientList = clientDao.findById(id);
+		System.out.println("****** \nThe booking list is : "+clientList.toString());
+		return clientList;
+	}
+	
+	@PostMapping("/client")
+	public Client createClient(@RequestBody Client clientData) {
+		return clientDao.save(clientData);
+	}
+	
+	@PutMapping("/client/{id}")
+	public Client updateClient(@RequestBody Client clientData) {
+		System.out.println("********** \n Client data to be updated is :"+clientData);
+		
+		return clientDao.save(clientData);
+	}
+	
+	@DeleteMapping("/client/{id}")
+	public void deleteClient(@PathVariable("id") int id) {
+		clientDao.deleteById(id);
+	}
+	
+	/************ BOOKINGS CONTROLLER ************/
+	
+	@GetMapping("/bookings")
+	@ResponseBody
+	public List<Bookings> getBookings() {
+		List<Bookings> bookingList = bookingDao.findAll();
+		System.out.println("****** \nThe booking list is : "+bookingList.toString());
+		return bookingList;
+	}
+	
+	@GetMapping("/booking/{id}")
+	@ResponseBody
+	public Optional<Bookings> getBookingsById(@PathVariable("id") int id) {
+		Optional<Bookings> bookingList = bookingDao.findById(id);
+		System.out.println("****** \nThe booking list is : "+bookingList.toString());
+		return bookingList;
+	}
+	
+	@PostMapping("/booking")
+	public Bookings createBooking(
+			@RequestBody Bookings bookingData/* , @RequestBody Integer cab, @RequestBody Integer client */) {
+		/*
+		 * bookingData.setCab(cabDao.findById(cab).orElse(null));
+		 * bookingData.setClient(clientDao.findById(client).orElse(null));
+		 */
+		System.out.println("************* \nBooking data to be saved is : "+bookingData);
+		
+		return bookingDao.save(bookingData);
+	}
+	
+	@PutMapping("/booking/{id}")
+	public Bookings updateBooking(@RequestBody Bookings bookingData) {
+		System.out.println("********** \n Booking data to be updated is :"+bookingData);
+		
+		return bookingDao.save(bookingData);
+	}
+	
+	@DeleteMapping("/booking/{id}")
+	public void deleteBooking(@PathVariable("id") int id) {
+		bookingDao.deleteById(id);
+	}
+
+}
