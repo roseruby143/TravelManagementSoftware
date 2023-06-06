@@ -16,10 +16,10 @@ public class AdminServices {
 	
 	public List<Bookings> getBookingsByCabId(int cabId) {
 		// TODO Auto-generated method stub
-		System.out.println("************** \nclientId is: "+cabId);
+		//System.out.println("************** \nclientId is: "+cabId);
 		List<Bookings> bData = new ArrayList<Bookings>();
 		bookingDao.findByCabId(cabId).forEach(bData::add);
-		System.out.println("*********** \nbData is: "+bData);
+		//System.out.println("*********** \nbData is: "+bData);
 		return bData;
 	}
 

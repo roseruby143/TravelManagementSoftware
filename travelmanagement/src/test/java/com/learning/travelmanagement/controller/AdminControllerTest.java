@@ -5,15 +5,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*; 
 
 import static org.mockito.BDDMockito.*;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.hasSize;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -31,7 +28,7 @@ import com.learning.travelmanagement.dao.ClientDAO;
 import com.learning.travelmanagement.model.Bookings;
 import com.learning.travelmanagement.service.AdminServices;
 
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
 @WebMvcTest(AdminController.class)
 class AdminControllerTest{
 	@Autowired
@@ -84,7 +81,7 @@ class AdminControllerTest{
 		Bookings bookings = new Bookings(1, "2", "08/07/2019", 150, 1, 1);
 	
 		given(bookingDao.save(bookings)).willReturn(bookings);
-		String expected = "{\"id\":1,\"noOfDays\":\"2\",\"date\":\"08/07/2019\",\"price\":150.0,\"cab\":{\"id\":1,\"cabModel\":null,\"cabType\":null,\"plateNo\":null,\"pricePerHour\":0},\"client\":{\"name\":null,\"address\":null,\"phone\":null,\"clientId\":1}}";
+		//String expected = "{\"id\":1,\"noOfDays\":\"2\",\"date\":\"08/07/2019\",\"price\":150.0,\"cab\":{\"id\":1,\"cabModel\":null,\"cabType\":null,\"plateNo\":null,\"pricePerHour\":0},\"client\":{\"name\":null,\"address\":null,\"phone\":null,\"clientId\":1}}";
 	    
 		MvcResult res =  mockMvc.perform(
 	          post("/admin/booking")
@@ -100,7 +97,7 @@ class AdminControllerTest{
         Bookings booking = new Bookings(1, "2", "08/07/2019", 160, 2, 1);
         given(bookingDao.save(booking)).willReturn(booking);
 
-        String expected = "{\"id\":1,\"noOfDays\":\"2\",\"date\":\"08/07/2019\",\"price\":160.0,\"cab\":{\"id\":2,\"cabModel\":null,\"cabType\":null,\"plateNo\":null,\"pricePerHour\":0},\"client\":{\"name\":null,\"address\":null,\"phone\":null,\"clientId\":1}}";
+        //String expected = "{\"id\":1,\"noOfDays\":\"2\",\"date\":\"08/07/2019\",\"price\":160.0,\"cab\":{\"id\":2,\"cabModel\":null,\"cabType\":null,\"plateNo\":null,\"pricePerHour\":0},\"client\":{\"name\":null,\"address\":null,\"phone\":null,\"clientId\":1}}";
         
         MvcResult res = mockMvc.perform(put("/admin/booking/{id}", 1)
         		.content(new ObjectMapper().writeValueAsString(booking))

@@ -7,8 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class TravelmanagementApplication {
 
 	public static void main(String[] args) {
+		System.setProperty("spring.config.location","application.properties");
 		SpringApplication.run(TravelmanagementApplication.class, args);
-		System.out.println("***************************** \n Inside TravelmanagementApplication main method \n ********************");
 	}
 
 }
